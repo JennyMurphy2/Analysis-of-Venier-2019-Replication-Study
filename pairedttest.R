@@ -58,7 +58,7 @@ venier2019replicationsj %>% shapiro_test(differences)
 
 # t test for squat jump data ---------------------------------------------------
 t.test(squatjump ~ supplement, sjdat.long, 
-       var.equal = TRUE, alternative = "two.sided", paired = TRUE)
+       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95)
 
 
 #Calculate descriptives for cmj data-------------------------------------
@@ -114,4 +114,4 @@ venier2019replicationcmj %>% shapiro_test(differences)
 
 # t test for cmj data ---------------------------------------------------
 t.test(cmj ~ supplement, cmjdat.long, 
-       var.equal = TRUE, alternative = "two.sided", paired = TRUE)
+       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95)
