@@ -54,6 +54,8 @@ ggplot(venier2019replicationsj, aes(differences)) +
                  bins = 15)
 
 ## Checking normality ----------------------------------------------------------
+venier2019replicationsj %>% shapiro_test(caffeine) 
+venier2019replicationsj %>% shapiro_test(placebo) 
 venier2019replicationsj %>% shapiro_test(differences) 
 
 # t test for squat jump data ---------------------------------------------------
@@ -110,7 +112,9 @@ ggplot(venier2019replicationcmj, aes(differences)) +
                  bins = 20)
 
 ## Checking normality ----------------------------------------------------------
-venier2019replicationcmj %>% shapiro_test(differences) 
+venier2019replicationcmj %>% shapiro_test(caffeine)
+venier2019replicationcmj %>% shapiro_test(placebo)
+venier2019replicationcmj %>% shapiro_test(differences)
 
 # t test for cmj data ---------------------------------------------------
 t.test(cmj ~ supplement, cmjdat.long, 
