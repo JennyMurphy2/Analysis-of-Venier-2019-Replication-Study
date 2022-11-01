@@ -1,57 +1,50 @@
-library(tidyverse)
 library(TOSTER)
+library(tidyverse)
+
 
 # Load datasets ------
 venier2019replicationcmj <- read_csv("venier2019replicationcmj.csv")
 venier2019replicationsj <- read_csv("venier2019replicationsj.csv")
+venierdata <- read.csv("venierdata.csv")
 
-# Analyze the Countermovement Jump (CMJ) Data ------
-# Data assumed in long format with y1 and y2 as the outcome variables
-## Create difference score ----
+# Calculate mean difference for replication squat jump data -------------------------------------
+venier2019replicationsj$sj_diff_rep <- venier2019replicationsj$caffeine - venier2019replicationsj$placebo #calculate difference score
+squatjump_meandiff_rep <-mean(venier2019replicationsj$sj_diff_rep) #mean of difference scores
 
-venier2019replicationcmj$diff = venier2019replicationcmj$caffeine - venier2019replicationcmj$placebo
+# Calculate mean difference for original squat jump data -------------------------------------
+venierdata$sj_diff_ori <- venierdata$sjcaff - venierdata$sjpla #calculate difference score
+squatjump_meandiff_ori <-mean(venierdata$sj_diff_ori) #mean of difference scores
 
-## Compute dz ----
-es_rep_cmj = effectsize::cohens_d(venier2019replicationcmj$diff, paired = TRUE)
+# Calculate mean difference for replication CMJ data -------------------------------------
+venier2019replicationcmj$cmj_diff_rep <- venier2019replicationcmj$caffeine - venier2019replicationcmj$placebo #calculate difference score
+cmj_meandiff_rep<-mean(venier2019replicationcmj$cmj_diff_rep) #mean of difference scores
 
-## Get original effect size for CMJ -----
-
-# Original author provided the raw data for this study
-BSDA::tsum.test(mean.x = 36.3579 - 34.7526,
-                s.x = 1.06431,
-                n.x = 19)
-es_ori_cmj = (36.3579 - 34.7526)/1.06431
-
-## Z-test ------
-compare_smd(smd1 = es_rep_cmj$Cohens_d,
-            n1 = 19,
-            smd2 = es_ori_cmj,
-            n2 = length(venier2019replicationcmj$participant),
-            paired = TRUE)
+# Calculate mean difference for original CMJ data -------------------------------------
+venierdata$cmj_diff_ori <- venierdata$cmjcaff - venierdata$cmjpla #calculate difference score
+cmj_meandiff_ori<-mean(venierdata$cmj_diff_ori) #mean of difference scores
 
 
-# Analyze the Squat Jump (SJ) Data ------
+# CMJ Z-test --------
+boot_test_cmj = boot_compare_smd(x1 = venier2019replicationcmj$cmj_diff_rep,
+                             x2 = venierdata$cmj_diff_ori,
+                             paired = TRUE)
 
-## Create difference score ----
+boot_test_cmj
 
-venier2019replicationsj$diff = venier2019replicationsj$caffeine - venier2019replicationsj$placebo
+# Table of bootstrapped CIs
+knitr::kable(boot_test_cmj$df_ci, digits = 4)
 
-## Compute dz ----
 
-es_rep_sj = effectsize::cohens_d(venier2019replicationsj$diff, paired = TRUE)
+# Squat jump z-test --------
+boot_test_sj = boot_compare_smd(x1 = venier2019replicationsj$sj_diff_rep,
+                                 x2 = venierdata$sj_diff_ori,
+                                 paired = TRUE)
 
-## Get original effect size for SJ-----
+boot_test_sj
 
-# Original author provided the raw data for this study
-BSDA::tsum.test(mean.x = 31.9474 - 30.7947,
-                s.x = 2.01394,
-                n.x = 19)
-es_ori_sj = (31.9474 - 30.7947)/2.01394
+# Table of bootstrapped CIs
+knitr::kable(boot_test_sj$df_ci, digits = 4)
 
-## Z-test
-compare_smd(smd1 = es_rep_sj$Cohens_d,
-            n1 = 19,
-            smd2 = es_ori_sj,
-            n2 = length(venier2019replicationsj$participant),
-            paired = TRUE)
+
+
 
