@@ -1,3 +1,5 @@
+library(tidyverse)
+
 venier2019replicationsj <- read_csv("venier2019replicationsj.csv")
 venier2019replicationcmj <- read_csv("venier2019replicationcmj.csv")
 venierdata <- read_csv("venierdata.csv")
@@ -9,7 +11,7 @@ venier2019replicationcmj$diff = venier2019replicationcmj$caffeine - venier2019re
 es_rep_cmj = effectsize::cohens_d(venier2019replicationcmj$diff, paired = TRUE)
 
 es_rep_cmj <-
-  es_rep_cmj %>% mutate(study_id = c("Replication study"))
+  es_rep_cmj %>% mutate(study_id = c("Replication study")) # add identifier
 
 ## Calculate original study ES for cmj -------------
 venierdata$diff = venierdata$cmjcaff - venierdata$cmjpla
@@ -17,7 +19,7 @@ venierdata$diff = venierdata$cmjcaff - venierdata$cmjpla
 es_ori_cmj = effectsize::cohens_d(venierdata$diff, paired = TRUE)
 
 es_ori_cmj <-
-  es_ori_cmj %>% mutate(study_id = c("Original study"))
+  es_ori_cmj %>% mutate(study_id = c("Original study")) # add identifier
 
 ## Labels for cmj forest plot -------------
 labelcmjrep <- "0.31 [-0.02, 0.64]"
