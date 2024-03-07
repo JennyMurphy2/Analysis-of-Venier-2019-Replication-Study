@@ -25,8 +25,8 @@ cmj_meandiff_ori<-mean(venierdata$cmj_diff_ori) #mean of difference scores
 
 
 # CMJ Z-test --------
-boot_test_cmj = boot_compare_smd(x1 = venier2019replicationcmj$cmj_diff_rep,
-                             x2 = venierdata$cmj_diff_ori,
+boot_test_cmj = boot_compare_smd(x1 = venierdata$cmj_diff_ori,
+                                 x2 = venier2019replicationcmj$cmj_diff_rep,
                              paired = TRUE)
 
 boot_test_cmj
@@ -36,8 +36,8 @@ knitr::kable(boot_test_cmj$df_ci, digits = 4)
 
 
 # Squat jump z-test --------
-boot_test_sj = boot_compare_smd(x1 = venier2019replicationsj$sj_diff_rep,
-                                 x2 = venierdata$sj_diff_ori,
+boot_test_sj = boot_compare_smd(x1 = venierdata$sj_diff_ori,
+                                x2 = venier2019replicationsj$sj_diff_rep,
                                  paired = TRUE)
 
 boot_test_sj
