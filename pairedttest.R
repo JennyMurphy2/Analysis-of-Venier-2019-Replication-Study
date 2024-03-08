@@ -127,6 +127,10 @@ venier2019replicationcmj %>% shapiro_test(difference)
 
 # t test for cmj data ---------------------------------------------------
 
-t.test(cmj ~ supplement, cmjdat.long, 
-       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95)
+results <- t.test(cmj ~ supplement, cmjdat.long, 
+       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95) %>%
+  tidy()
+results
+
+
 
