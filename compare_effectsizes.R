@@ -1,6 +1,7 @@
 library(TOSTER)
 library(tidyverse)
 
+set.seed(21)
 
 # Load datasets ------
 venier2019replicationcmj <- read_csv("venier2019replicationcmj.csv")
