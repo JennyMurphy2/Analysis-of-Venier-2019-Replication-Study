@@ -2,6 +2,7 @@
 library(tidyverse)
 library(stats)
 library(rstatix)
+library(MOTE)
 
 # Prepare SJ data --------------------------------------------------------------------
 venier2019replicationsj <- read_csv("venier2019replicationsj.csv")
@@ -127,10 +128,17 @@ venier2019replicationcmj %>% shapiro_test(difference)
 
 # t test for cmj data ---------------------------------------------------
 
-results <- t.test(cmj ~ supplement, cmjdat.long, 
-       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95) %>%
-  tidy()
+#results <- t.test(cmj ~ supplement, cmjdat.long, 
+#       var.equal = TRUE, alternative = "two.sided", paired = TRUE, conf.level = 0.95) %>%
+#  tidy()
+#results
+
+results <- t.test(venier2019replicationcmj$caffeine,venier2019replicationcmj$placebo, paired = TRUE)
 results
+
+rep_dz <- d.dep.t.diff(mdiff = summary_data_cmj$mean_diff_cmj, sddiff = summary_data_cmj$sd_diff_cmj, 
+                       n = 38, a = 0.05)
+rep_dz
 
 
 
